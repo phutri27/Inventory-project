@@ -6,8 +6,11 @@
     <body>
         <div>
             <a href="/add_genres">
-                    <button>Add</button>
-                </a>
+                <button>Add genre</button>
+            </a>
+            <a href="/add_movies">
+                <button>Add movie</button>
+            </a>
             <% genres.forEach((genre) => { %>
                 <form action="/genres/<%= genre.id %>" method="GET">
                     <button type="submit"><%= genre.genre_name %></button>
@@ -26,6 +29,13 @@
                     <div>
                         <p><%= movie.movie_name %></p>
                         <p><%= movie.poster %></p>
+                        <form action="/<%= movie.id %>/deleteMovie" method="POST">
+                            <input type="hidden" name="genreId" id="genreId" value="<%= genred %>">
+                            <button type="submit">Delete</button>
+                        </form>
+                        <a href="/edit_movie/<%= movie.id %>">
+                            <button>Edit</button>
+                        </a>
                     </div>
                <% }) %>
            <% } %>

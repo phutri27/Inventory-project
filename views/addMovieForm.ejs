@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title><%= title %></title>
+    </head>
+    <body>
+        <div>
+            <form action="/add_movies" method="POST">
+                <label for="movie_name">Movie title</label>
+                <input type="text" name="movie_name" id="movie_name">
+                <label for="genre">Genre</label>
+                <div class="genre-container">
+                    <% genres.forEach((genre) => { %>
+                    <div>
+                        <input 
+                            type="checkbox" 
+                            name="genre_option[]" 
+                            id="genre_<%= genre.id %>" 
+                            value="<%= genre.id %>"
+                        >
+                        <label for="genre_<%= genre.id %>"><%= genre.genre_name %></label>
+                    </div>
+                    <% }) %>
+                </div>
+                <label for="poster">Poster</label>
+                <input type="text" name="poster" id="poster">
+                <button type="submit">Add movie</button>
+            </form>
+        </div>
+    </body>
+</html>

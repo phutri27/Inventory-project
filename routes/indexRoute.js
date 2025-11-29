@@ -13,4 +13,11 @@ route.post("/add_genres", controller.addGenPost)
 
 route.post("/:genredd/delete", controller.deleteGenPost)
 
+route.get("/add_movies", controller.addMoviesGet)
+route.post("/add_movies", controller.addMoviePost)
+
+route.get("/edit_movie/:id", controller.editMovieGet)
+route.post("/edit_movie/:id", controller.editMoviePost)
+
+route.post("/:movieid/deleteMovie", controller.deleteMoviePost)
 module.exports = route
