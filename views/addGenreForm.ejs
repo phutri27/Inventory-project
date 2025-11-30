@@ -6,6 +6,7 @@
     </head>
     <body>
         <div>
+            <%- include("err/errors.ejs") %>
             <form action="/add_genres" method="POST">
                 <label for="genre">New Genre</label>
                 <input type="text" name="genre" id="genre">

@@ -4,25 +4,27 @@
     </head>
     <body>
         <div>
-            <form action="/add_movies" method="POST">
+            <%- include("err/errors.ejs") %>
+            <form action="/add_movies" method="POST" enctype="multipart/form-data">
                 <label for="movie_name">Movie title</label>
-                <input type="text" name="movie_name" id="movie_name">
+                <input type="text" name="movie_name" id="movie_name" value="<%= movie_value %>">
                 <label for="genre">Genre</label>
                 <div class="genre-container">
                     <% genres.forEach((genre) => { %>
                     <div>
+                        <% const isChecked = selectedGenres.some(sg => sg == genre.id); %>
                         <input 
                             type="checkbox" 
                             name="genre_option[]" 
                             id="genre_<%= genre.id %>" 
                             value="<%= genre.id %>"
-                        >
+                        <%= isChecked ? "checked" : "" %>>
                         <label for="genre_<%= genre.id %>"><%= genre.genre_name %></label>
                     </div>
                     <% }) %>
                 </div>
                 <label for="poster">Poster</label>
-                <input type="text" name="poster" id="poster">
+                <input type="file" name="poster" id="poster" accept=".jpg, .jpeg, .png">   
                 <button type="submit">Add movie</button>
             </form>
         </div>

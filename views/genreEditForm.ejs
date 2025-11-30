@@ -3,9 +3,10 @@
         <title><%= title %></title>
     </head>
     <body>
+        <%- include("err/errors.ejs") %>
         <form action="/edit_genres/<%= genreId %>" method="POST">
-            <label for="genre_name">Genre's name</label>
-            <input type="text" name="genre_name" id="genre_name" value="<%= genreName %>">
+            <label for="genre">Genre's name</label>
+            <input type="text" name="genre" id="genre" value="<%= genreName %>">
             <button type="submit">Update</button>
         </form>
     </body>

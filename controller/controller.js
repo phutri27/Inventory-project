@@ -1,6 +1,19 @@
 const { genreDb, movieDb } = require("../db/queries")
 const { validationResult, matchedData } = require('express-validator');
+const path = require('node:path')
+const multer = require('multer');
+const { title } = require("node:process");
+const { error } = require("node:console");
+const storage = multer.diskStorage({
+    destination: function (req, file , cb){
+        cb(null, path.join(__dirname, "..", "public/images"))
+    },
+    filename: function (req, file, cb){
+        cb(null, file.originalname)
+    }
+})
 
+const upload = multer({storage})
 class Controller{
     constructor(genDb, movDb){
         this.genDb = genDb
@@ -52,26 +65,46 @@ class Controller{
 
     async updateGenPost(req, res){
         const genreId = req.params.id;
-        const { genre_name } = req.body
-        await this.genDb.updateGenre(genreId, genre_name)
+        let genreName = await this.genDb.getGenreById(genreId)
+        if (genreName[0].genre_name == "[object Object]"){
+            genreName = ""
+        }
+        const errors = validationResult(req)
+        if (!errors.isEmpty()){
+            return res.status(400).render("genreEditForm", {
+                title: "Edit genre",
+                genreId: genreId,
+                genreName: genreName,
+                errors: errors.array()
+            })
+        }
+        const { genre } = matchedData(req)
+        await this.genDb.updateGenre(genreId, genre)
         res.redirect("/")
     }
 
     addGenGet(req, res){
         res.render("addGenreForm",{
-            title: "Add genre"
+            title: "Add genre",
         })
     }
 
-    addGenPost(req, res){
-        const {genre} = req.body
-        this.genDb.addGenre(genre)
+    async addGenPost(req, res){
+        const errors = validationResult(req)
+        if (!errors.isEmpty()){
+            return res.status(400).render("addGenreForm",{
+                title: "Add genre",
+                errors: errors.array()
+            })
+        }
+        const {genre} = matchedData(req)
+        await this.genDb.addGenre(genre)
         res.redirect("/")
     }
 
-    deleteGenPost(req, res){
+    async deleteGenPost(req, res){
         const genreId = req.params.genredd
-        this.genDb.deleteGenre(genreId)
+        await this.genDb.deleteGenre(genreId)
         res.redirect("/")
     }
 
@@ -80,15 +113,27 @@ class Controller{
 
         res.render("addMovieForm", {
             title: "Add a movie",
-            genres: genres
+            genres: genres,
+            movie_value: "",
+            selectedGenres: []
         })
     }
 
     async addMoviePost(req, res){
-        const {genre_option, movie_name, poster} = req.body
-        await this.movDb.addMovie(movie_name, poster)
+        const genres = await this.genDb.getAllGenres()
+        const errors = validationResult(req)
+        if (!errors.isEmpty()){
+            return res.status(400).render("addMovieForm", {
+                title: "Add Movie",
+                genres: genres,
+                movie_value: req.body.movie_name,
+                selectedGenres: req.body.genre_option.length > 0 ? req.body.genre_option : [],
+                errors: errors.array(),
+            })
+        }
+        const {genre_option, movie_name} = matchedData(req)
+        await this.movDb.addMovie(movie_name, req.file.filename)
         const movie = await this.movDb.getLastMovie()
-        console.log(movie)
         for (const i of genre_option){
             const genreId = Number(i);
             await this.movDb.insertIntoMoviesType(movie[0].id, genreId)
@@ -113,9 +158,23 @@ class Controller{
     }
 
     async editMoviePost(req, res){
-        const {movieName, genre_option, poster} = req.body
         const movieId = req.params.id
-        await this.movDb.updateMovie(movieName, poster, movieId)
+        const movieInfo = req.body.movie_name
+        const genres = await this.genDb.getAllGenres()
+        console.log(req.body.genre_option)
+        const errors = validationResult(req)
+        if (!errors.isEmpty()){
+            return res.status(400).render("editMovieForm",{
+                title: "Edit movie",
+                movieId: movieId,
+                movieName: movieInfo,
+                genres: genres,
+                selectedGenres: req.body.genre_option.length > 0 ? req.body.genre_option : [],
+                errors: errors.array()
+            })
+        }
+        const {movie_name, genre_option} = matchedData(req)
+        await this.movDb.updateMovie(movie_name, req.file.filename, movieId)
         await this.movDb.deleteMovieTypes(movieId)
         for (const i of genre_option){
             const genreId = Number(i)
@@ -133,4 +192,7 @@ class Controller{
 }
 
 const controller = new Controller(genreDb, movieDb)
-module.exports = controller
+module.exports = {
+    controller,
+    upload
+}

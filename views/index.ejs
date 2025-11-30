@@ -11,24 +11,30 @@
             <a href="/add_movies">
                 <button>Add movie</button>
             </a>
-            <% genres.forEach((genre) => { %>
-                <form action="/genres/<%= genre.id %>" method="GET">
-                    <button type="submit"><%= genre.genre_name %></button>
-                </form>
-                <a href="/edit_genres/<%= genre.id %>">
-                    <button>Edit</button>
-                </a>
-                <form action="/<%= genre.id %>/delete" method="POST">
-                    <button type="submit">Delete</button>
-                </form>
-            <% }) %>
+            <div class="genre-container">
+                <% genres.forEach((genre) => { %>
+                    <div class="genre-container-inner">
+                        <form action="/genres/<%= genre.id %>" method="GET">
+                            <button type="submit" class="genre-btn"><%= genre.genre_name %></button>
+                        </form>
+                        <div class="util" data-genre-id="<%= genre.id %>">
+                            <a href="/edit_genres/<%= genre.id %>">
+                                <button>Edit</button>
+                            </a>
+                            <form action="/<%= genre.id %>/delete" method="POST">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
         </div>
         <div>
             <% if (movies && movies.length) { %>
                 <% movies.forEach((movie) => { %>
                     <div>
                         <p><%= movie.movie_name %></p>
-                        <p><%= movie.poster %></p>
+                        <img src="/images/<%= movie.poster %>" alt="<%= movie.movie_name %> Poster" class="posterImg">
                         <form action="/<%= movie.id %>/deleteMovie" method="POST">
                             <input type="hidden" name="genreId" id="genreId" value="<%= genred %>">
                             <button type="submit">Delete</button>
