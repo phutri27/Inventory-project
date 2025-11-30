@@ -49,7 +49,7 @@ class Controller{
             title: "Movies",
             genres: genres,
             movies: movies,
-            genred: genreId
+            genred: genreId,
         });
     }
 

@@ -35,3 +35,24 @@
         }
     }
 }
+
+.add-btn{
+    display: flex;
+    gap: 20px;
+    button{
+        font-size: 1.5rem;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        background-color: slateblue;
+        border: 3px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        &:hover{
+            background-color: rgb(122, 109, 206);
+        }
+    }
+}
+
+.hold{
+    background-color: green;
+}

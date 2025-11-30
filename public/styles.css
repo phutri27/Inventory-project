@@ -35,4 +35,25 @@
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
+.add-btn {
+  display: flex;
+  gap: 20px;
+}
+.add-btn button {
+  font-size: 1.5rem;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  background-color: slateblue;
+  border: 3px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.add-btn button:hover {
+  background-color: rgb(122, 109, 206);
+}
+
+.hold {
+  background-color: green;
+}
+
 /*# sourceMappingURL=styles.css.map */

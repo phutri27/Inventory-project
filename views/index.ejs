@@ -5,17 +5,23 @@
     </head>
     <body>
         <div>
-            <a href="/add_genres">
-                <button>Add genre</button>
-            </a>
-            <a href="/add_movies">
-                <button>Add movie</button>
-            </a>
+            <div class="add-btn">
+                <a href="/add_genres">
+                    <button>Add genre</button>
+                </a>
+                <a href="/add_movies">
+                    <button>Add movie</button>
+                </a>
+            </div>
             <div class="genre-container">
                 <% genres.forEach((genre) => { %>
+                    <% let isColor; %>
+                    <% if (movies && movies.length) { %>
+                        <% isColor = (genre.id == genred ); %>
+                    <% } %>
                     <div class="genre-container-inner">
                         <form action="/genres/<%= genre.id %>" method="GET">
-                            <button type="submit" class="genre-btn"><%= genre.genre_name %></button>
+                            <button type="submit" class="genre-btn <%= isColor ? "hold" : "" %>"><%= genre.genre_name %></button>
                         </form>
                         <div class="util" data-genre-id="<%= genre.id %>">
                             <a href="/edit_genres/<%= genre.id %>">
@@ -26,6 +32,7 @@
                             </form>
                         </div>
                     </div>
+                
                 <% }) %>
             </div>
         </div>
@@ -46,5 +53,14 @@
                <% }) %>
            <% } %>
         </div>
+        <script>
+            const btn = document.querySelectorAll(".genre-btn")
+            btn.forEach((elem) => {
+                elem.addEventListener('click', (e) =>{
+                    document.querySelector(".hold")?.classList.remove("hold")
+                    elem.classList.add("hold")
+                })
+            })
+        </script>
     </body>
 </html>
