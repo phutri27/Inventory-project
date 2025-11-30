@@ -1,0 +1,37 @@
+.posterImg{
+    height: 200px;
+}
+
+.genre-container{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    &-inner{
+        display: flex;
+        flex-direction: column;
+        form{
+            margin: 0px;
+        }
+        .genre-btn{
+            font-size: 1.6rem;
+            border: 4px solid black;
+            border-radius: 10px;
+            font-weight: bold;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            cursor: pointer;
+        }
+        &:hover .util{
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .util{
+            opacity: 0;
+            transform: translateY(-5px);
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+    }
+}

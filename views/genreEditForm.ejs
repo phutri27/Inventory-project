@@ -3,6 +3,7 @@
         <title><%= title %></title>
     </head>
     <body>
+        <%- include("back/backBtn.ejs") %>
         <%- include("err/errors.ejs") %>
         <form action="/edit_genres/<%= genreId %>" method="POST">
             <label for="genre">Genre's name</label>

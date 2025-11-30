@@ -4,6 +4,7 @@
     </head>
     <body>
         <div>
+            <%- include("back/backBtn.ejs") %>
             <%- include("err/errors.ejs") %>
             <form action="/add_movies" method="POST" enctype="multipart/form-data">
                 <label for="movie_name">Movie title</label>

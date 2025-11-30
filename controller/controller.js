@@ -65,16 +65,12 @@ class Controller{
 
     async updateGenPost(req, res){
         const genreId = req.params.id;
-        let genreName = await this.genDb.getGenreById(genreId)
-        if (genreName[0].genre_name == "[object Object]"){
-            genreName = ""
-        }
         const errors = validationResult(req)
         if (!errors.isEmpty()){
             return res.status(400).render("genreEditForm", {
                 title: "Edit genre",
                 genreId: genreId,
-                genreName: genreName,
+                genreName: "",
                 errors: errors.array()
             })
         }

@@ -1,5 +1,5 @@
 const { Pool } = require("pg")
-require('dotenv').config()
+require('dotenv').config({debug: true})
 
 module.exports = new Pool({
     host: "localhost", 
