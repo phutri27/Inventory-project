@@ -2,14 +2,12 @@ const { genreDb, movieDb } = require("../db/queries")
 const { validationResult, matchedData } = require('express-validator');
 const path = require('node:path')
 const multer = require('multer');
-const { title } = require("node:process");
-const { error } = require("node:console");
+const cloudinary = require('../cloudy')
+
 const storage = multer.diskStorage({
-    destination: function (req, file , cb){
-        cb(null, path.join(__dirname, "..", "public/images"))
-    },
     filename: function (req, file, cb){
-        cb(null, file.originalname)
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+        cb(null, file.fieldname + '-' + uniqueSuffix)
     }
 })
 
@@ -140,7 +138,7 @@ class Controller{
             })
         }
         const {genre_option, movie_name} = matchedData(req)
-        await this.movDb.addMovie(movie_name, req.file.filename)
+        await this.movDb.addMovie(movie_name, res.locals.posterUrl)
         const movie = await this.movDb.getLastMovie()
         for (const i of genre_option){
             const genreId = Number(i);
@@ -184,7 +182,7 @@ class Controller{
             })
         }
         const {movie_name, genre_option} = matchedData(req)
-        await this.movDb.updateMovie(movie_name, req.file.filename, movieId)
+        await this.movDb.updateMovie(movie_name, res.locals.posterUrl, movieId)
         await this.movDb.deleteMovieTypes(movieId)
         for (const i of genre_option){
             const genreId = Number(i)

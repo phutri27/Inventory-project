@@ -44,7 +44,7 @@
                             <div class="movie">
                                 <p><%= movie.movie_name %></p>
                                 <div>
-                                <img src="/images/<%= movie.poster %>" alt="<%= movie.movie_name %> Poster" class="posterImg">
+                                <img src="<%= movie.poster %>" alt="<%= movie.movie_name %> Poster" class="posterImg">
                                 </div>
                                 <div class="movie-genre-div">
                                     <% movie.movieGenres.forEach((name) => { %>
