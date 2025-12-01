@@ -44,7 +44,17 @@ class Controller{
         const genreId = req.params.id;
         const movies = await this.movDb.getAllMovies(genreId);
         const genres = await this.genDb.getAllGenres();
-
+        for (const i in movies){
+            const movieGenres = await this.genDb.getGenreByMovieId(movies[i].id)
+            let genresArray = [] 
+            for (const j in movieGenres){
+                const genreName = await this.genDb.getGenreById(movieGenres[j].genres_id)
+                for (const k in genreName){
+                    genresArray.push(genreName[k].genre_name)
+                }
+            }
+            movies[i].movieGenres = genresArray
+        }
         res.render("index", {
             title: "Movies",
             genres: genres,
@@ -79,17 +89,19 @@ class Controller{
         res.redirect("/")
     }
 
-    addGenGet(req, res){
-        res.render("addGenreForm",{
+    async addGenGet(req, res){
+        res.render("genreEditForm",{
             title: "Add genre",
+            genreName: ""
         })
     }
 
     async addGenPost(req, res){
         const errors = validationResult(req)
         if (!errors.isEmpty()){
-            return res.status(400).render("addGenreForm",{
+            return res.status(400).render("genreEditForm",{
                 title: "Add genre",
+                genreName: "",
                 errors: errors.array()
             })
         }
@@ -108,7 +120,7 @@ class Controller{
         const genres = await this.genDb.getAllGenres()
 
         res.render("addMovieForm", {
-            title: "Add a movie",
+            title: "Add Movie",
             genres: genres,
             movie_value: "",
             selectedGenres: []
@@ -143,13 +155,16 @@ class Controller{
         const movieInfo = await this.movDb.getMovieById(id)
         const genres = await this.genDb.getAllGenres()
         const selectedGenres = await this.genDb.getGenreByMovieId(id)
-        res.render("editMovieForm", {
-            title: "Edit movie",
+        let selected = []
+        for (const i of selectedGenres){
+            selected.push(i.genres_id)
+        }
+        res.render("addMovieForm", {
+            title: "Edit Movie",
             movieId: id,
-            movieName: movieInfo[0].movie_name,
+            movie_value: movieInfo[0].movie_name,
             genres: genres,
-            selectedGenres: selectedGenres,
-            poster: movieInfo[0].poster
+            selectedGenres: selected,
         })
     }
 
@@ -157,13 +172,12 @@ class Controller{
         const movieId = req.params.id
         const movieInfo = req.body.movie_name
         const genres = await this.genDb.getAllGenres()
-        console.log(req.body.genre_option)
         const errors = validationResult(req)
         if (!errors.isEmpty()){
-            return res.status(400).render("editMovieForm",{
-                title: "Edit movie",
+            return res.status(400).render("addMovieForm",{
+                title: "Edit Movie",
                 movieId: movieId,
-                movieName: movieInfo,
+                movie_value: movieInfo,
                 genres: genres,
                 selectedGenres: req.body.genre_option.length > 0 ? req.body.genre_option : [],
                 errors: errors.array()

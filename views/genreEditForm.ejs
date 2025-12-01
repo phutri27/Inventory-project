@@ -1,14 +1,20 @@
 <html>
     <head>
+        <link rel="stylesheet" href="/genre.css">
         <title><%= title %></title>
     </head>
     <body>
         <%- include("back/backBtn.ejs") %>
-        <%- include("err/errors.ejs") %>
-        <form action="/edit_genres/<%= genreId %>" method="POST">
-            <label for="genre">Genre's name</label>
-            <input type="text" name="genre" id="genre" value="<%= genreName %>">
-            <button type="submit">Update</button>
-        </form>
+            
+            <% if (title == "Add genre") { %>
+                <form action="/add_genres" method="POST">
+            <% } else{ %>
+                <form action="/edit_genres/<%= genreId %>" method="POST">
+            <% } %>
+             <%- include("err/errors.ejs") %>
+                <label for="genre">Genre's name</label>
+                <input type="text" name="genre" id="genre" value="<%= genreName %>">
+                <button type="submit"><%= (title == "Add genre") ? "Add Genre" : "Edit Genre" %></button>
+            </form>
     </body>
 </html>

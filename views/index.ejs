@@ -36,22 +36,35 @@
                 <% }) %>
             </div>
         </div>
-        <div>
-            <% if (movies && movies.length) { %>
-                <% movies.forEach((movie) => { %>
-                    <div>
-                        <p><%= movie.movie_name %></p>
-                        <img src="/images/<%= movie.poster %>" alt="<%= movie.movie_name %> Poster" class="posterImg">
-                        <form action="/<%= movie.id %>/deleteMovie" method="POST">
-                            <input type="hidden" name="genreId" id="genreId" value="<%= genred %>">
-                            <button type="submit">Delete</button>
-                        </form>
-                        <a href="/edit_movie/<%= movie.id %>">
-                            <button>Edit</button>
-                        </a>
-                    </div>
-               <% }) %>
-           <% } %>
+        <div class="container">
+            <div class="movie-container">
+                <% if (movies && movies.length) { %>
+                    <% movies.forEach((movie) => { %>
+                        <div class="movie-con">
+                            <div class="movie">
+                                <p><%= movie.movie_name %></p>
+                                <div>
+                                <img src="/images/<%= movie.poster %>" alt="<%= movie.movie_name %> Poster" class="posterImg">
+                                </div>
+                                <div class="movie-genre-div">
+                                    <% movie.movieGenres.forEach((name) => { %>
+                                        <div class="movie-genre-div-inner"><%= name %></div>
+                                    <% }) %>
+                                </div>
+                                <div class="movie-util">
+                                    <form action="/<%= movie.id %>/deleteMovie" method="POST">
+                                        <input type="hidden" name="genreId" id="genreId" value="<%= genred %>">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                    <a href="/edit_movie/<%= movie.id %>">
+                                        <button>Edit</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                <% }) %>
+            <% } %>
+            </div>
         </div>
         <script>
             const btn = document.querySelectorAll(".genre-btn")

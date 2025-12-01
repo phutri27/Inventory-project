@@ -1,0 +1,34 @@
+body {
+  background: rgb(50, 49, 49);
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: white;
+    font-size: 1.5rem;
+}
+
+form input{
+    font-size: 2rem;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+form button{
+    font-size: 1.5rem;
+    background: slategrey;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+}
+

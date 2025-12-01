@@ -1,5 +1,5 @@
 .posterImg {
-  height: 200px;
+  height: 250px;
 }
 
 .genre-container {
@@ -29,10 +29,20 @@
   pointer-events: auto;
 }
 .genre-container-inner .util {
+  gap: 5px;
+  display: flex;
+  justify-content: center;
   opacity: 0;
   transform: translateY(-5px);
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.genre-container-inner .util button {
+  color: white;
+  background: black;
+  border: none;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  border-radius: 5px;
 }
 
 .add-btn {
@@ -54,6 +64,63 @@
 
 .hold {
   background-color: green;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+.container .movie-container {
+  background-color: rgb(58, 57, 57);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-content: center;
+  width: 80vw;
+}
+.container .movie-container .movie-con {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container .movie-container .movie-con .movie {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.container .movie-container .movie-con .movie p {
+  font-size: 2rem;
+  margin: 30px 0px 0px 0px;
+}
+.container .movie-container .movie-con .movie .movie-genre-div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 100%;
+}
+.container .movie-container .movie-con .movie .movie-genre-div-inner {
+  border: 1px solid rgb(201, 201, 201);
+  padding: 3px 7px;
+  border-radius: 15px;
+}
+.container .movie-container .movie-con .movie .movie-util {
+  display: flex;
+  gap: 5px;
+}
+.container .movie-container .movie-con .movie .movie-util button {
+  font-size: 0.9rem;
+  color: black;
+  border: none;
+  background-color: yellow;
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 12px;
+  padding: 3px 7px;
+  cursor: pointer;
+}
+
+body {
+  background: rgb(50, 49, 49);
 }
 
 /*# sourceMappingURL=styles.css.map */

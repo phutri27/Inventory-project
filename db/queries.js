@@ -5,7 +5,7 @@ class MoviesQueries{
 
     // Dung de hien thi movies khi ma bam vao 1 button genre
     async getAllMovies(genreId){
-        const { rows } = await this.pool.query("SELECT movies.id, poster, movie_name FROM movies JOIN movies_type ON movies.id = movie_id WHERE genres_id = ($1)",[genreId])
+        const { rows } = await this.pool.query("SELECT movies.id, poster, movie_name FROM movies JOIN movies_type ON movies.id = movie_id WHERE genres_id = ($1) ORDER BY movies.id",[genreId])
         console.log(rows)
         return rows
     }
@@ -56,7 +56,7 @@ class GenresQueries{
     }
 
     async getAllGenres(){
-        const { rows } = await this.pool.query("SELECT * FROM genres")
+        const { rows } = await this.pool.query("SELECT * FROM genres ORDER BY id")
         return rows
     }
 
