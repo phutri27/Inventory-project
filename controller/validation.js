@@ -9,17 +9,18 @@ exports.validateGenre = [
 exports.validateMovie = [
     body("movie_name").trim()
     .notEmpty().withMessage(`Movie name ${emptyErr}`),
-    body("genre_option").trim()
+    body("genre_option")
     .notEmpty().withMessage(`Genre option ${emptyErr}`),
-    body("poster").trim()
-    .custom((value, {req}) => {
-        if (!req.file){
-            throw new Error(`Poster ${emptyErr}`)
-        }
-        if (req.file.size > 5 * 1024 * 1024){
-            throw new Error("File size out of reach")
-        }
-        return true
-    })
+    body("movie_name").custom((value, { req }) => {
+    if (!req.file) {
+      throw new Error("Poster is required");
+    }
+
+    if (req.file.size > 5 * 1024 * 1024) {
+      throw new Error("Poster image too large (max 5MB)");
+    }
+
+    return true;
+  })
 ]
 

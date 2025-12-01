@@ -2,7 +2,7 @@ const { genreDb, movieDb } = require("../db/queries")
 const { validationResult, matchedData } = require('express-validator');
 const path = require('node:path')
 const multer = require('multer');
-const cloudinary = require('../cloudy')
+const uploadImage = require('./imageUpload')
 
 const storage = multer.diskStorage({
     filename: function (req, file, cb){
@@ -133,13 +133,19 @@ class Controller{
                 title: "Add Movie",
                 genres: genres,
                 movie_value: req.body.movie_name,
-                selectedGenres: req.body.genre_option.length > 0 ? req.body.genre_option : [],
+                selectedGenres: req.body.genre_option || [],
                 errors: errors.array(),
             })
         }
+
+        const uploadResult = await uploadImage(req.file.path);
+        const posterUrl = uploadResult.secure_url || uploadResult.url;
+
         const {genre_option, movie_name} = matchedData(req)
-        await this.movDb.addMovie(movie_name, res.locals.posterUrl)
+
+        await this.movDb.addMovie(movie_name, posterUrl)
         const movie = await this.movDb.getLastMovie()
+
         for (const i of genre_option){
             const genreId = Number(i);
             await this.movDb.insertIntoMoviesType(movie[0].id, genreId)
@@ -177,12 +183,16 @@ class Controller{
                 movieId: movieId,
                 movie_value: movieInfo,
                 genres: genres,
-                selectedGenres: req.body.genre_option.length > 0 ? req.body.genre_option : [],
+                selectedGenres: req.body.genre_option || [],
                 errors: errors.array()
             })
         }
+
+        const uploadResult = await uploadImage(req.file.path);
+        const posterUrl = uploadResult.secure_url || uploadResult.url;
+
         const {movie_name, genre_option} = matchedData(req)
-        await this.movDb.updateMovie(movie_name, res.locals.posterUrl, movieId)
+        await this.movDb.updateMovie(movie_name, posterUrl, movieId)
         await this.movDb.deleteMovieTypes(movieId)
         for (const i of genre_option){
             const genreId = Number(i)

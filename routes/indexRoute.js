@@ -3,7 +3,6 @@ const path = require('path');
 const route = Router();
 const {controller, upload} = require("../controller/controller")
 const {validateGenre, validateMovie} = require("../controller/validation")
-const uploadImage = require("../controller/imageUpload")
 
 route.get("/", controller.getAllGenres)
 route.get("/genres/:id", controller.getAll)
@@ -17,10 +16,10 @@ route.post("/add_genres", validateGenre, controller.addGenPost)
 route.post("/:genredd/delete", controller.deleteGenPost)
 
 route.get("/add_movies", controller.addMoviesGet)
-route.post("/add_movies", upload.single('poster'), validateMovie, uploadImage, controller.addMoviePost)
+route.post("/add_movies", upload.single('poster'), validateMovie, controller.addMoviePost)
 
 route.get("/edit_movie/:id", controller.editMovieGet)
-route.post("/edit_movie/:id", upload.single('poster'), validateMovie, uploadImage, controller.editMoviePost)
+route.post("/edit_movie/:id", upload.single('poster'), validateMovie, controller.editMoviePost)
 
 route.post("/:movieid/deleteMovie", controller.deleteMoviePost)
 
